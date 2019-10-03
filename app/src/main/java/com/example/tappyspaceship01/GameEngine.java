@@ -44,6 +44,11 @@ public class GameEngine extends SurfaceView implements Runnable {
 
     // ----------------------------
     // ## SPRITES
+
+    int DinoXPosition;
+    int DinoYPosition;
+    Bitmap playerImage;
+    Rect playerHitbox;
     // ----------------------------
 
     // represent the TOP LEFT CORNER OF THE GRAPHIC
@@ -64,6 +69,20 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.screenHeight = h;
 
         this.printScreenInfo();
+
+        // Starting position of the dino
+
+        this.playerImage = BitmapFactory.decodeResource(this.getContext().getResources(),
+                R.drawable.dino64);
+        this.DinoXPosition = 1600;
+        this.DinoYPosition = 100;
+
+        this.playerHitbox = new Rect(100,
+                600,
+                1600+playerImage.getWidth(),
+                100+playerImage.getHeight()
+
+        );
     }
 
 
@@ -72,6 +91,8 @@ public class GameEngine extends SurfaceView implements Runnable {
 
         Log.d(TAG, "Screen (w, h) = " + this.screenWidth + "," + this.screenHeight);
     }
+
+
 
     private void spawnPlayer() {
         //@TODO: Start the player at the left side of screen
@@ -118,6 +139,29 @@ public class GameEngine extends SurfaceView implements Runnable {
     // ------------------------------
 
     public void updatePositions() {
+
+        // POsition of the dino
+        if (this.fingerAction == "mousedown") {
+            // if mousedown, then move player up
+            // Make the UP movement > than down movement - this will
+            // make it look like the player is moving up alot
+            this.DinoYPosition = this.DinoYPosition + 100;
+
+            //this.playerHitbox.left  = this.DinoXPosition;
+            //this.playerHitbox.top = this.DinoYPosition;
+          //  this.playerHitbox.right  = this.DinoXPosition + this.playerImage.getWidth();
+        //    this.playerHitbox.bottom = this.DinoYPosition + this.playerImage.getHeight();
+        }
+
+        if (this.fingerAction == "mouseup") {
+            // if mouseup, then move player down
+            this.DinoYPosition = this.DinoYPosition - 10;
+
+            //this.playerHitbox.left  = this.DinoXPosition;
+            //this.playerHitbox.top = this.DinoYPosition;
+            //this.playerHitbox.right  = this.DinoXPosition + this.playerImage.getWidth();
+            //this.playerHitbox.bottom = this.DinoYPosition + this.playerImage.getHeight();
+        }
     }
 
     public void redrawSprites() {
@@ -138,6 +182,12 @@ public class GameEngine extends SurfaceView implements Runnable {
             paintbrush.setStyle(Paint.Style.STROKE);
             paintbrush.setStrokeWidth(5);
 
+
+
+            // draw player graphic on screen
+            canvas.drawBitmap(playerImage, DinoXPosition, DinoYPosition, paintbrush);
+            // draw the player's hitbox
+           // canvas.drawRect(this.playerHitbox, paintbrush);
             //----------------
             this.holder.unlockCanvasAndPost(canvas);
         }
