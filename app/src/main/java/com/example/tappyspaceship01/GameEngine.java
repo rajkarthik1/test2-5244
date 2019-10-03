@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.Image;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -49,6 +50,17 @@ public class GameEngine extends SurfaceView implements Runnable {
     int DinoYPosition;
     Bitmap playerImage;
     Rect playerHitbox;
+
+
+    Bitmap candyImage;
+    int candyXPosition;
+    int candyYPosition;
+    Rect candyHitbox;
+
+    Bitmap rainbowImage;
+    int rainbowXPosition;
+    int rainbowYPosition;
+    Rect rainbowHitbox;
     // ----------------------------
 
     // represent the TOP LEFT CORNER OF THE GRAPHIC
@@ -77,11 +89,37 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.DinoXPosition = 1600;
         this.DinoYPosition = 100;
 
-        this.playerHitbox = new Rect(100,
-                600,
+        this.playerHitbox = new Rect(1600,
+                100,
                 1600+playerImage.getWidth(),
                 100+playerImage.getHeight()
 
+        );
+
+        // put initial starting postion of enemy
+        this.candyImage = BitmapFactory.decodeResource(this.getContext().getResources(),
+                R.drawable.candy64);
+
+
+        this.candyXPosition = 100;
+        this.candyYPosition = 600;
+        // 1. create the hitbox
+        this.candyHitbox = new Rect(100,
+                600,
+                100+candyImage.getWidth(),
+                600+candyImage.getHeight()
+        );
+
+        this.rainbowImage = BitmapFactory.decodeResource(this.getContext().getResources(),
+                R.drawable.rainbow64);
+
+        this.rainbowXPosition = 100;
+        this.rainbowYPosition = 400;
+
+        this.rainbowHitbox = new Rect(100,
+                400,
+                100+rainbowImage.getWidth(),
+                400+rainbowImage.getHeight()
         );
     }
 
@@ -187,7 +225,19 @@ public class GameEngine extends SurfaceView implements Runnable {
             // draw player graphic on screen
             canvas.drawBitmap(playerImage, DinoXPosition, DinoYPosition, paintbrush);
             // draw the player's hitbox
-           // canvas.drawRect(this.playerHitbox, paintbrush);
+           canvas.drawRect(this.playerHitbox, paintbrush);
+
+            // draw the enemy graphic on the screen
+            canvas.drawBitmap(candyImage, candyXPosition, candyYPosition, paintbrush);
+            // 2. draw the enemy's hitbox
+            canvas.drawRect(this.candyHitbox, paintbrush);
+
+
+            // draw enemy 2 on the screen
+            // draw the enemy graphic on the screen
+            canvas.drawBitmap(rainbowImage, rainbowXPosition, rainbowYPosition, paintbrush);
+            // 2. draw the enemy's hitbox
+            canvas.drawRect(this.rainbowHitbox, paintbrush);
             //----------------
             this.holder.unlockCanvasAndPost(canvas);
         }
