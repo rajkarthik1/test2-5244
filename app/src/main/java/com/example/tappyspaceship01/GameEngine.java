@@ -49,18 +49,18 @@ public class GameEngine extends SurfaceView implements Runnable {
     int DinoXPosition;
     int DinoYPosition;
     Bitmap playerImage;
-    Rect playerHitbox;
+  //  Rect playerHitbox;
 
 
     Bitmap candyImage;
     int candyXPosition;
     int candyYPosition;
-    Rect candyHitbox;
+    //Rect candyHitbox;
 
     Bitmap rainbowImage;
     int rainbowXPosition;
     int rainbowYPosition;
-    Rect rainbowHitbox;
+    //Rect rainbowHitbox;
     // ----------------------------
 
     // represent the TOP LEFT CORNER OF THE GRAPHIC
@@ -70,6 +70,7 @@ public class GameEngine extends SurfaceView implements Runnable {
     // ## GAME STATS
     // ----------------------------
 
+    int lives = 10;
 //
     public GameEngine(Context context, int w, int h) {
         super(context);
@@ -89,26 +90,22 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.DinoXPosition = 1600;
         this.DinoYPosition = 100;
 
-        this.playerHitbox = new Rect(1600,
-                100,
-                1600+playerImage.getWidth(),
-                100+playerImage.getHeight()
-
-        );
-
+        //this.playerHitbox = new Rect(1600,
+               // 100,
+               // 1600+playerImage.getWidth(),
+                //100+playerImage.getHeight()
+        //);
         // put initial starting postion of enemy
         this.candyImage = BitmapFactory.decodeResource(this.getContext().getResources(),
                 R.drawable.candy64);
-
-
         this.candyXPosition = 100;
         this.candyYPosition = 600;
         // 1. create the hitbox
-        this.candyHitbox = new Rect(100,
-                600,
-                100+candyImage.getWidth(),
-                600+candyImage.getHeight()
-        );
+        //this.candyHitbox = new Rect(100,
+          //      600,
+            //    100+candyImage.getWidth(),
+              //  600+candyImage.getHeight()
+        //);
 
         this.rainbowImage = BitmapFactory.decodeResource(this.getContext().getResources(),
                 R.drawable.rainbow64);
@@ -116,22 +113,17 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.rainbowXPosition = 100;
         this.rainbowYPosition = 400;
 
-        this.rainbowHitbox = new Rect(100,
-                400,
-                100+rainbowImage.getWidth(),
-                400+rainbowImage.getHeight()
-        );
+        //this.rainbowHitbox = new Rect(100,
+          //      400,
+            //    100+rainbowImage.getWidth(),
+              //  400+rainbowImage.getHeight()
+       // );
     }
-
-
 
     private void printScreenInfo() {
 
         Log.d(TAG, "Screen (w, h) = " + this.screenWidth + "," + this.screenHeight);
     }
-
-
-
     private void spawnPlayer() {
         //@TODO: Start the player at the left side of screen
     }
@@ -175,6 +167,8 @@ public class GameEngine extends SurfaceView implements Runnable {
     // GAME ENGINE FUNCTIONS
     // - update, draw, setFPS
     // ------------------------------
+    int numLoops = 0;
+
 
     public void updatePositions() {
 
@@ -183,7 +177,7 @@ public class GameEngine extends SurfaceView implements Runnable {
             // if mousedown, then move player up
             // Make the UP movement > than down movement - this will
             // make it look like the player is moving up alot
-            this.DinoYPosition = this.DinoYPosition + 100;
+            this.DinoYPosition = this.DinoYPosition - 100;
 
             //this.playerHitbox.left  = this.DinoXPosition;
             //this.playerHitbox.top = this.DinoYPosition;
@@ -193,7 +187,7 @@ public class GameEngine extends SurfaceView implements Runnable {
 
         if (this.fingerAction == "mouseup") {
             // if mouseup, then move player down
-            this.DinoYPosition = this.DinoYPosition - 10;
+            this.DinoYPosition = this.DinoYPosition + 10;
 
             //this.playerHitbox.left  = this.DinoXPosition;
             //this.playerHitbox.top = this.DinoYPosition;
@@ -201,6 +195,9 @@ public class GameEngine extends SurfaceView implements Runnable {
             //this.playerHitbox.bottom = this.DinoYPosition + this.playerImage.getHeight();
         }
     }
+
+    // Newww  updated positons
+
 
     public void redrawSprites() {
         if (this.holder.getSurface().isValid()) {
@@ -225,19 +222,19 @@ public class GameEngine extends SurfaceView implements Runnable {
             // draw player graphic on screen
             canvas.drawBitmap(playerImage, DinoXPosition, DinoYPosition, paintbrush);
             // draw the player's hitbox
-           canvas.drawRect(this.playerHitbox, paintbrush);
+         //  canvas.drawRect(this.playerHitbox, paintbrush);
 
             // draw the enemy graphic on the screen
             canvas.drawBitmap(candyImage, candyXPosition, candyYPosition, paintbrush);
             // 2. draw the enemy's hitbox
-            canvas.drawRect(this.candyHitbox, paintbrush);
+           // canvas.drawRect(this.candyHitbox, paintbrush);
 
 
             // draw enemy 2 on the screen
             // draw the enemy graphic on the screen
             canvas.drawBitmap(rainbowImage, rainbowXPosition, rainbowYPosition, paintbrush);
             // 2. draw the enemy's hitbox
-            canvas.drawRect(this.rainbowHitbox, paintbrush);
+            //canvas.drawRect(this.rainbowHitbox, paintbrush);
             //----------------
             this.holder.unlockCanvasAndPost(canvas);
         }
